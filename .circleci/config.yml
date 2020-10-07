@@ -22,7 +22,30 @@ jobs:
           command: |
             echo "Hello World"
 
-#  build-frontend:
+  build-frontend:
+    environment:
+      CODE: 123
+    docker:
+      - image:  circleci/node:13.8.0
+    step:
+      - checkout
+      - restore_chache:
+          keys: [frontend-build]
+      - run :
+          name: build frontend
+          comand: |
+            cd frontend
+            echo $CODE
+            npm insrall
+            npm run build
+      - save_chache:
+          path: [ frontend/node_modules]
+          key: frontend-build
+          
+
+            
+
+      -  
 
 #  build-frontend:
 
