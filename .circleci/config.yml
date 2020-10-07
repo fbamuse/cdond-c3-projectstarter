@@ -141,4 +141,4 @@ workflows:
       - build-backend
       - test-backend
           requires:
-            -build-backend
+            - build-backend
