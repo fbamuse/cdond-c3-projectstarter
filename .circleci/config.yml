@@ -32,6 +32,10 @@ jobs:
       - save_cache:
           paths: [ frontend/node_modules]
           key: frontend-build
+      - run:
+          name: on error
+          command: echo "build frontend Error!"
+          when: on_fail
 
   build-backend:
     docker:
@@ -50,6 +54,11 @@ jobs:
       - save_cache:
           paths: [ backend/node_modules]
           key: backend-build
+      - run:
+          name: on error
+          command: echo "build backend Error!"
+          when: on_fail
+
   test-frontend:
     docker:
       - image:  circleci/node:13.8.0
@@ -68,7 +77,12 @@ jobs:
           paths: [ frontend/node_modules]
           key: frontend-build
       - store_test_results:
-          path: frontend/test-front_end_results
+          paths: ~/test-front_end_results
+      - run:
+          name: on error
+          command: echo "test frontend Error!"
+          when: on_fail
+
   test-backend:
     docker:
       - image:  circleci/node:13.8.0
@@ -86,8 +100,13 @@ jobs:
       - save_cache:
           paths: [ backend/node_modules]
           key: backend-build
+
       - store_test_results:
-          path: backend/test-back_end_results
+          paths: ~/backend/test-back_end_results
+      - run:
+          name: on error
+          command: echo "test backend Error!"
+          when: on_fail
 #  build-frontend:
 
 #  test-frontend:
@@ -113,9 +132,13 @@ jobs:
 #  cloudfront-update:
 
 workflows:
-  default:
+  my_workflow:
     jobs:
       - build-frontend
-      - build-backend
       - test-frontend
-      - test-backend
+          requires:
+            - build-frontend
+
+      - build-backend
+          requires:
+            - build-backend
