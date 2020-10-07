@@ -27,11 +27,11 @@ jobs:
       CODE: 123
     docker:
       - image:  circleci/node:13.8.0
-    steps :
+    steps:
       - checkout
       - restore_chache:
           keys: [frontend-build]
-      - run :
+      - run:
           name: build frontend
           comand: |
             cd frontend
