@@ -77,7 +77,7 @@ jobs:
           paths: [ frontend/node_modules]
           key: frontend-build
       - store_test_results:
-          path: ~/project/frontend/test-front_end_results
+          path: ~/project/frontend
       - run:
           name: on error
           command: echo "test frontend Error!"
@@ -102,7 +102,7 @@ jobs:
           key: backend-build
 
       - store_test_results:
-          path: ~/project/backend/test-back_end_results
+          path: ~/project/backend
       - run:
           name: on error
           command: echo "test backend Error!"
