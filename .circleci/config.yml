@@ -24,7 +24,7 @@ jobs:
           keys: [frontend-build]
       - run:
           name: build frontend
-          comand: |
+          command: |
             cd frontend
             echo $CODE
             npm insrall
@@ -32,11 +32,7 @@ jobs:
       - save_cache:
           path: [ frontend/node_modules]
           key: frontend-build
-          
 
-            
-
-      -  
 
 #  build-frontend:
 
