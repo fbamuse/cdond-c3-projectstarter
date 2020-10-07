@@ -29,7 +29,7 @@ jobs:
       - image:  circleci/node:13.8.0
     steps:
       - checkout
-      - restore_chache:
+      - restore_cache:
           keys: [frontend-build]
       - run:
           name: build frontend
@@ -38,7 +38,7 @@ jobs:
             echo $CODE
             npm insrall
             npm run build
-      - save_chache:
+      - save_cache:
           path: [ frontend/node_modules]
           key: frontend-build
           
