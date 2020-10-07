@@ -12,15 +12,6 @@ version: 2.1
 #     ...
 
 jobs:
-  hello-world: # Delete this job when you get started
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: Say Hello
-          command: |
-            echo "Hello World"
 
   build-frontend:
     environment:
@@ -74,4 +65,4 @@ jobs:
 workflows:
   default:
     jobs:
-      - hello-world
+      - build-frontend
