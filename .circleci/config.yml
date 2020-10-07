@@ -67,6 +67,8 @@ jobs:
       - save_cache:
           paths: [ frontend/node_modules]
           key: frontend-build
+      - store_test_results:
+          path: /tmp/test-front_end_results
   test-backend:
     docker:
       - image:  circleci/node:13.8.0
@@ -84,6 +86,8 @@ jobs:
       - save_cache:
           paths: [ backend/node_modules]
           key: backend-build
+      - store_test_results:
+          path: /tmp/test-back_end_results
 #  build-frontend:
 
 #  test-frontend:
