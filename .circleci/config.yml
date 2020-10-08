@@ -79,6 +79,7 @@ jobs:
       - run:
           command: |
             mkdir -p ~/f_reports
+          when: always
       - store_test_results:
           path: ~/f_reports
       - run:
@@ -106,6 +107,7 @@ jobs:
       - run:
           command: |
             mkdir -p ~/b_reports
+          when: always
       - store_test_results:
           path: ~/b_reports
       - run:
