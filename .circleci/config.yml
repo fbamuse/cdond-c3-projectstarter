@@ -124,11 +124,11 @@ jobs:
       - checkout
       - restore_cache:
           keys: [frontend-build]
-      - run: npm audit       
+      - run:        
           name: analize frontend dependencies
           command: |
             cd frontend
-            nmp install
+            npm install
             npm audit --audit-level=critical
 
   analyze-backend:
@@ -138,11 +138,11 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
-      - run: npm audit       
+      - run:        
           name: analize backend dependencies
           command: |
             cd backend
-            nmp install
+            npm install
             npm audit --audit-level=critical
 
 
@@ -188,4 +188,4 @@ workflows:
       - analyze-backend:
           requires:
             - test-backend
-            
+
