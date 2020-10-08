@@ -87,6 +87,8 @@ jobs:
           command: echo "test frontend Error!"
           when: on_fail
 
+
+
   test-backend:
     docker:
       - image:  circleci/node:13.8.0
@@ -114,6 +116,36 @@ jobs:
           name: on error
           command: echo "test backend Error!"
           when: on_fail
+
+  analyze-frontend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-build]
+      - run: npm audit       
+          name: analize frontend dependencies
+          command: |
+            cd frontend
+            nmp install
+            npm audit --audit-level=critical
+
+  analyze-backend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-build]
+      - run: npm audit       
+          name: analize backend dependencies
+          command: |
+            cd backend
+            nmp install
+            npm audit --audit-level=critical
+
+
 #  build-frontend:
 
 #  test-frontend:
@@ -145,7 +177,15 @@ workflows:
       - test-frontend:
           requires:
             - build-frontend
+      - analyze-frontend:
+          requires:
+            - test-frontend
+          
       - build-backend
       - test-backend:
           requires:
             - build-backend
+      - analyze-backend:
+          requires:
+            - test-backend
+            
