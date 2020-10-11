@@ -2,10 +2,10 @@ version: 2.1
 parameters:
   WorkflowID:
     type: string
-    default: 1
+    default: "1"
   ID:
     type: string
-    default: 1
+    default: "1"
   
 
 orbs:
