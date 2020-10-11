@@ -262,3 +262,7 @@ workflows:
           requires:
             - test-backend
 
+      - create_infrastructure_backend
+      - create_infrastructure_cloudfront     
+      - create_infrastructure_frontend
+
