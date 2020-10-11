@@ -214,7 +214,7 @@ jobs:
               --template-file .circleci/files/cloudfront.yml \
               --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
-  #           --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
+               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}"  \
 
 
 #  build-frontend:
