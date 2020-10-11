@@ -193,9 +193,9 @@ jobs:
             aws cloudformation deploy \
               --template-file  .circleci/files/backend.yml \
               --stack-name "udapeople-backend-${CIRECLE_WORKFLOW_ID:0:7}"\
-              --parameter-overrides ID=${CIRECLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRECLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
-              
+
   create_infrastructure_cloudfront:
     docker:
       - image: amazon/aws-cli
