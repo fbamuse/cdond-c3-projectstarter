@@ -191,7 +191,7 @@ jobs:
           name: backend_infrastructure
           command: |
             aws cloudformation deploy \
-              --template-file ./file/backend.yml \
+              --template-file  files/backend.yml \
               --stack-name backend
               --parameters ParameterKey=WorkflowID,ParameterValue=${WorkflowID}
   create_infrastructure_cloudfront:
@@ -203,7 +203,7 @@ jobs:
           name: cloudfront_infrastructure
           command: |
             aws cloudformation deploy \
-              --template-file ./file/cloudfront.yml \
+              --template-file files/cloudfront.yml \
               --stack-name cloudfront
               --parameters ParameterKey=WorkflowID,ParameterValue=${WorkflowID}
   create_infrastructure_frontend:
@@ -215,7 +215,7 @@ jobs:
           name: frontend_infrastructure
           command: |
             aws cloudformation deploy \
-              --template-file ./file/frontend.yml \
+              --template-file files/frontend.yml \
               --stack-name frontend
               --parameters ParameterKey=ID,ParameterValue=${ID}
 
