@@ -1,4 +1,4 @@
-#udacity  
+ParameterValueParameterValueParameterValueParameterValue#udacity  
 connecting CircleCI to my Github repo
 ![](2020-10-06-23-23-09.png)
 
@@ -13,3 +13,7 @@ backnd compile error
 
 ![](2020-10-09-11-42-40.png)
 
+![](2020-10-10-15-42-50.png)
+
+![](2020-10-10-15-48-03.png)
+![](2020-10-10-15-56-16.png)

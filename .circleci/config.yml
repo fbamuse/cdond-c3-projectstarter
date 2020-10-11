@@ -246,23 +246,23 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - build-frontend
-      - test-frontend:
-          requires:
-            - build-frontend
-      - analyze-frontend:
-          requires:
-            - test-frontend
+#      - build-frontend
+#      - test-frontend:
+#          requires:
+#            - build-frontend
+#      - analyze-frontend:
+#          requires:
+#            - test-frontend
           
-      - build-backend
-      - test-backend:
-          requires:
-            - build-backend
-      - analyze-backend:
-          requires:
-            - test-backend
+#      - build-backend
+#      - test-backend:
+#          requires:
+#            - build-backend
+#      - analyze-backend:
+#          requires:
+#            - test-backend
 
       - create_infrastructure_backend
-      - create_infrastructure_cloudfront     
-      - create_infrastructure_frontend
+ #     - create_infrastructure_cloudfront     
+ #     - create_infrastructure_frontend
 

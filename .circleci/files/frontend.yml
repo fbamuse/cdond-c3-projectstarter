@@ -1,10 +1,10 @@
 Description: >
   UdaPeople frontend stack.
 
-#Parameters:
-#  ID:
-#    Description: Unique identifier.
-#    Type: String
+Parameters:
+  ID:
+    Description: Unique identifier.
+    Type: String
 
 Resources:
   WebsiteBucket:
