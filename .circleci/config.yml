@@ -193,7 +193,7 @@ jobs:
             aws cloudformation deploy \
               --template-file  .circleci/files/backend.yml \
               --stack-name backend
-              --parameters ParameterKey=ID,ParameterValue=<<pipeline.id>>
+              --parameters ParameterKey=ID,ParameterValue=1S
   create_infrastructure_cloudfront:
     docker:
       - image: amazon/aws-cli
