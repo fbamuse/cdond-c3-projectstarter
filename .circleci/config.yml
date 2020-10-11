@@ -1,4 +1,13 @@
 version: 2.1
+parameters:
+  WorkflowID:
+    type: string
+    default: 1
+  ID:
+    type: string
+    default: 1
+  
+
 orbs:
   slack: circleci/slack@3.4.2
 
@@ -173,7 +182,42 @@ jobs:
           failure_message: ':ng:\nRepository: $CIRCLE_PROJECT_REPONAME\nBranch: $CIRCLE_BRANCH\nPull Requests: $CIRCLE_PULL_REQUESTS\nDeploy Failure!'
           webhook: "${SLACK_WEBHOOK}"
 
-
+  create_infrastructure_backend:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: backend_infrastructure
+          command: |
+            aws cloudformation deploy \
+              --template-file file/backend.yml \
+              --stack-name backend
+              --parameters ParameterKey=WorkflowID,ParameterValue=${WorkflowID}
+  create_infrastructure_cloudfront:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: cloudfront_infrastructure
+          command: |
+            aws cloudformation deploy \
+              --template-file file/cloudfront.yml \
+              --stack-name cloudfront
+              --parameters ParameterKey=WorkflowID,ParameterValue=${WorkflowID}
+  create_infrastructure_frontend:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: frontend_infrastructure
+          command: |
+            aws cloudformation deploy \
+              --template-file file/frontend.yml \
+              --stack-name frontend
+              --parameters ParameterKey=ID,ParameterValue=${ID}
 
 #  build-frontend:
 

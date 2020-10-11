@@ -2,7 +2,7 @@ Description: >
   UdaPeople backend stack.
 
 Parameters:
-  ID:
+  ID: 
     Description: Unique identifier.
     Type: String
 
