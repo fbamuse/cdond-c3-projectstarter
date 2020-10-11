@@ -193,7 +193,7 @@ jobs:
             aws cloudformation deploy \
               --template-file  .circleci/files/backend.yml \
               --stack-name backend
-              --parameters ParameterKey=WorkflowID,ParameterValue=<<pipeline.number>>
+              --parameters ParameterKey=ID,ParameterValue=<<pipeline.number>>
   create_infrastructure_cloudfront:
     docker:
       - image: amazon/aws-cli
@@ -205,7 +205,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name cloudfront
-              --parameters ParameterKey=WorkflowID,ParameterValue=<<pipeline.number>>
+              --parameters ParameterKey=WorkflowID,ParameterValue=<<pipeline.id>>
   create_infrastructure_frontend:
     docker:
       - image: amazon/aws-cli
@@ -217,7 +217,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --stack-name frontend
-              --parameters ParameterKey=ID,ParameterValue=<<pipeline.id>>
+              --parameters ParameterKey=ID,ParameterValue=<<pipeline.number>>
 
 #  build-frontend:
 
