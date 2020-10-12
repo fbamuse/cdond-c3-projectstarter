@@ -305,6 +305,7 @@ workflows:
 #      - analyze-backend:
 #          requires:
 #            - test-backend
+
       - get_instance_ip 
       - configure_infrastructure:
           requires:
