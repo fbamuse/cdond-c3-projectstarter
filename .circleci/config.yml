@@ -257,8 +257,8 @@ jobs:
             cat  .circleci/ansible/inventory.txt
       - run:
           name: Install openssh
-            command: |
-              apk add openssh-client
+          command: |
+            apk add openssh-client
               
       - run:
           name: Configure prometheus 
