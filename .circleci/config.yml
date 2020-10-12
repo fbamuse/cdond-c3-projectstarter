@@ -224,7 +224,7 @@ jobs:
       - run:
           name: "get ips"
           command: |
-            aws_hosts=$(aws ec2 describe-instances  --region ap-northeast-1 --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
+            aws_hosts=$(aws ec2 describe-instances  --version 1.18 --region ap-northeast-1 --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
       - run:
           name: "echo ips"
           command: |
@@ -234,6 +234,7 @@ jobs:
           name: Get the instance ip address for backend 
           command: |
             aws ec2 describe-instances \ 
+              --version 1.18
               --region ap-northeast-1 \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text >> .circleci/ansible/inventory.txt
