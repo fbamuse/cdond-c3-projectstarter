@@ -228,13 +228,12 @@ jobs:
           command: |
             apk add --update ansible # install the dependencies needed for your playbook
       - run:
-        name: inventory file
-        command: |
-            echo "[all]" > inventory
-            aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> inventory
-      
+          name: inventory file
+          command: |
+              echo "[all]" > inventory
+              aws ec2 describe-instances \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --output text >> inventory
       - run:
           name: Configure prometheus 
           command: |
@@ -291,6 +290,8 @@ workflows:
 
       - create_infrastructure
       - configure_infrastructure
+          requires:
+            - create_infrastructure
  #     - create_infrastructure_cloudfront     
  #     - create_infrastructure_frontend
 
