@@ -228,9 +228,17 @@ jobs:
           command: |
             apk add --update ansible # install the dependencies needed for your playbook
       - run:
+        name: inventory file
+        command: |
+            echo "[all]" > inventory
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text >> inventory
+      
+      - run:
           name: Configure prometheus 
           command: |
-            ansible-playbook -i inventory.txt playbook.yml
+            ansible-playbook -i inventory.txt  .circleci/main.yml
 
 
 
