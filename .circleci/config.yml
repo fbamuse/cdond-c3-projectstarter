@@ -214,7 +214,28 @@ jobs:
               --template-file .circleci/files/cloudfront.yml \
               --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}"  \
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}"  
+
+  configure_infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["d0:0f:c1:78:f7:13:f7:92:32:b1:4b:ac:18:7d:17:13"] # You can get this ID in the section where you registered the SSH Key
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible # install the dependencies needed for your playbook
+      - run:
+          name: Configure prometheus 
+          command: |
+            ansible-playbook -i inventory.txt playbook.yml
+
+
+
+
+
 
 
 #  build-frontend:
@@ -261,6 +282,7 @@ workflows:
 #            - test-backend
 
       - create_infrastructure
+      - configure_infrastructure
  #     - create_infrastructure_cloudfront     
  #     - create_infrastructure_frontend
 
