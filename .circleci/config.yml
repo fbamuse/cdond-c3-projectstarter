@@ -297,7 +297,7 @@ workflows:
 #      - analyze-backend:
 #          requires:
 #            - test-backend
-       - configure_infrastructur
+       - configure_infrastructure
 
 
 #      - create_infrastructure
