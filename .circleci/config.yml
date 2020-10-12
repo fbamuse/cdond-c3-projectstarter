@@ -225,7 +225,7 @@ jobs:
           name: Get the instance ip address for backend 
           command: |
             aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicIpAddress' --output text 
+              --query 'Reservations[*].Instances[*].PublicIpAddress' --output text 
 #            aws ec2 describe-instances \
 #              --query 'Reservations[*].Instances[*].PublicIpAddress' \
 #              --output text >> .circleci/ansible/inventory.txt
