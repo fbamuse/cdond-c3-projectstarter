@@ -251,7 +251,11 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible # install the dependencies needed for your playbook
-
+      - run:
+          name: Get the instance ip address for backend 
+          command: |
+            cat  .circleci/ansible/inventory.txt
+              
       - run:
           name: Configure prometheus 
           command: |
