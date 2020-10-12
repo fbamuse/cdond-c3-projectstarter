@@ -297,7 +297,10 @@ workflows:
 #      - analyze-backend:
 #          requires:
 #            - test-backend
-       - configure_infrastructure
+      - get_instance_ip 
+      - configure_infrastructure:
+          requires:
+            - get_instance_ip        
 
 
 #      - create_infrastructure
