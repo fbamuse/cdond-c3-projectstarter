@@ -247,7 +247,7 @@ jobs:
       - run:
           name: Configure prometheus 
           command: |
-            ansible-playbook -i inventory.txt  main.yml
+            ansible-playbook -i inventory.txt  .circleci/ansible/main.yml
 
 
 
