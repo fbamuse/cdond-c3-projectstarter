@@ -214,7 +214,23 @@ jobs:
               --template-file .circleci/files/cloudfront.yml \
               --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}"  
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}" 
+
+  get_instance_ip:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Get the instance ip address for backend 
+          command: |
+            echo "[all]" > inventory
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=udapeople" \
+              --output text >> inventory
+              
+
 
   configure_infrastructure:
     docker:
@@ -227,13 +243,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible # install the dependencies needed for your playbook
-      - run:
-          name: inventory file
-          command: |
-              echo "[all]" > inventory
-              aws ec2 describe-instances \
-                --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                --output text >> inventory
+
       - run:
           name: Configure prometheus 
           command: |
@@ -287,11 +297,13 @@ workflows:
 #      - analyze-backend:
 #          requires:
 #            - test-backend
+      -configure_infrastructur
 
-      - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+
+#      - create_infrastructure
+#      - configure_infrastructure:
+#          requires:
+#            - create_infrastructure
  #     - create_infrastructure_cloudfront     
  #     - create_infrastructure_frontend
 
