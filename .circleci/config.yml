@@ -222,6 +222,15 @@ jobs:
     steps:
       - checkout
       - run:
+        name: "get ips"
+        command: |
+           aws_hosts=$(aws ec2 describe-instances  --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
+      - run:
+          name: "echo ips"
+          command: |
+            echo $aws_hosts
+
+      - run:
           name: Get the instance ip address for backend 
           command: |
             aws ec2 describe-instances \
