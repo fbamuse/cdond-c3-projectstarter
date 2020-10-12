@@ -218,7 +218,7 @@ jobs:
 
   get_instance_ip:
     docker:
-      - image: amazon/aws-cli:1.18
+      - image: amazon/aws-cli/1.18.152
     steps:
       - checkout
       - run:
