@@ -224,12 +224,12 @@ jobs:
       - run:
           name: Get the instance ip address for backend 
           command: |
-            env TERM=xterm  && aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' --output text 
-#            aws ec2 describe-instances \
-#              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-#              --output text >> .circleci/ansible/inventory.txt
-#            cat  .circleci/ansible/inventory.txt
+#            env TERM=xterm  && aws ec2 describe-instances \
+#              --query 'Reservations[*].Instances[*].PublicIpAddress' --output text 
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text >> .circleci/ansible/inventory.txt
+            cat  .circleci/ansible/inventory.txt
               
 
 
