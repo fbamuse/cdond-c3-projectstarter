@@ -218,13 +218,14 @@ jobs:
 
   get_instance_ip:
     docker:
-      - image: amazon/aws-cli/1.18.157
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
           name: "get ips"
           command: |
-            aws_hosts=$(aws ec2 describe-instances --region ap-northeast-1 --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
+            aws_hosts=$(aws --version)
+#            aws_hosts=$(aws ec2 describe-instances --region ap-northeast-1 --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
       - run:
           name: "echo ips"
           command: |
