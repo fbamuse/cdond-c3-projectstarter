@@ -230,12 +230,11 @@ jobs:
           name: "echo ips"
           command: |
             echo $aws_hosts
-
       - run:
           name: Get the instance ip address for backend 
           command: |
             aws --region ap-northeast-1 ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> .circleci/ansible/inventory.txt
-            cat  .circleci/ansible/inventory.txt
+
               
 
 
