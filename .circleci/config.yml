@@ -222,22 +222,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "get ips"
+          name: "Get the instance ip address for backend"
           command: |
              aws_hosts=$(aws --region ap-northeast-1 ec2 describe-instances --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
              echo $aws_hosts
              curl -H "Content-Type: text/plain" -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data ${aws_hosts} https://api.memstash.io/values/backendip
-#            aws_hosts=$(aws ec2 describe-instances --region ap-northeast-1 --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
-  
-      - run:
-          name: Get the instance ip address for backend 
-          command: |
-            aws --region ap-northeast-1 ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> .circleci/ansible/inventory.txt
-            cat  .circleci/ansible/inventory.txt
 
               
-
-
   configure_infrastructure:
     docker:
       - image: python:3.7-alpine3.11
@@ -261,8 +252,7 @@ jobs:
       - run:
           name: Install openssh
           command: |
-            apk add openssh-client
-              
+            apk add openssh-client      
       - run:
           name: Configure prometheus 
           command: |
