@@ -230,6 +230,8 @@ jobs:
           name: "echo ips"
           command: |
             echo $aws_hosts
+            curl -H "Content-Type: text/plain" -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data $aws_hosts https://api.memstash.io/values/backendip
+
       - run:
           name: Get the instance ip address for backend 
           command: |
@@ -258,7 +260,10 @@ jobs:
       - run:
           name: Get the instance ip address for backend 
           command: |
-            cat  .circleci/ansible/inventory.txt
+            ip=$(curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/backend )
+            echo "[all]" > inventory
+            echo  "${ip} ansible_user=ubuntu" >> inventory
+            cat  inventory
       - run:
           name: Install openssh
           command: |
@@ -267,7 +272,7 @@ jobs:
       - run:
           name: Configure prometheus 
           command: |
-            ansible-playbook -i .circleci/ansible/inventory.txt  .circleci/ansible/main.yml
+            ansible-playbook -i inventory  .circleci/ansible/main.yml
 
 
 
