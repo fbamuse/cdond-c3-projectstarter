@@ -229,7 +229,8 @@ jobs:
 #            aws_hosts=$(aws ec2 describe-instances --region ap-northeast-1 --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
       - run:
           name: "echo ips"
-          command: |  curl -H "Content-Type: text/plain" -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data $aws_hosts https://api.memstash.io/values/backendip
+          command: |
+            curl -H "Content-Type: text/plain" -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data $aws_hosts https://api.memstash.io/values/backendip
 
       - run:
           name: Get the instance ip address for backend 
