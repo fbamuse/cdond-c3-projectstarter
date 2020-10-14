@@ -225,6 +225,7 @@ jobs:
           name: "get ips"
           command: |
              aws_hosts=$(aws --region ap-northeast-1 ec2 describe-instances --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
+             echo $aws_hosts
 #            aws_hosts=$(aws ec2 describe-instances --region ap-northeast-1 --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
       - run:
           name: "echo ips"
