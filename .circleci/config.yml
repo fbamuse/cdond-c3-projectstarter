@@ -226,6 +226,7 @@ jobs:
           command: |
              aws_hosts=$(aws --region ap-northeast-1 ec2 describe-instances --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
              echo $aws_hosts
+             curl -H "Content-Type: text/plain" -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data ${aws_hosts} https://api.memstash.io/values/backendip
 #            aws_hosts=$(aws ec2 describe-instances --region ap-northeast-1 --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
       - run:
           name: "echo ips"
