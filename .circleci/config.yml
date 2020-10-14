@@ -305,12 +305,16 @@ workflows:
 #      - configure_infrastructure:
 #          requires:
 #            - get_instance_ip        
-
-
-      - create_infrastructure
       - configure_infrastructure:
-          requires:
-            - create_infrastructure
- #     - create_infrastructure_cloudfront     
+
+#      - create_infrastructure
+#      - configure_infrastructure:
+#          requires:
+#            - create_infrastructure
+ 
+
+
+
+#     - create_infrastructure_cloudfront     
  #     - create_infrastructure_frontend
 
