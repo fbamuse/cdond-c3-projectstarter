@@ -240,9 +240,9 @@ jobs:
       - run:
           name: Get the instance ip address for backend 
           command: |
-            echo "[backend]" > inventory
-            curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/backendip  >> inventory
-            cat  inventory   
+            echo "[backend]" > inventory.txt
+            curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/backendip  >> inventory.txt
+            cat  inventory.txt
       - run:
           name: Configure server with ansible
           command: |
@@ -257,7 +257,7 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
         
-            ansible-playbook -i inventory  .circleci/ansible/main.yml
+            ansible-playbook -i inventory.txt  .circleci/ansible/main.yml
 
 
 
