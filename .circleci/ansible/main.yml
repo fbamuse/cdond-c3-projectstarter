@@ -1,6 +1,6 @@
 
 - name: "configuration play."
-  hosts: all
+  hosts: backend
   user: ec2-user
   gather_facts: true
   vars:
@@ -21,4 +21,5 @@
     - setup:
   roles:
     - configure-prometheus-node-exporter
-#    - configure-server
+    - configure-server
+    - deploy
