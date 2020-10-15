@@ -2,7 +2,9 @@
 - name: "configuration play."
   hosts: backend
   user: ubuntu
+  become: true
   gather_facts: true
+
   vars:
     - ansible_python_interpreter: /usr/bin/python3
     - ansible_host_key_checking: false
