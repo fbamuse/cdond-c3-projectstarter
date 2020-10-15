@@ -229,9 +229,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a"] # You can get this ID in the section where you registered the SSH Key
-      - attach_workspace:
-          at: .circleci/ansible/
+          fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a] # You can get this ID in the section where you registered the SSH Key
       - run:
           name: Install dependencies
           command: |
@@ -242,11 +240,7 @@ jobs:
           command: |
             echo "[all]" > inventory
             curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/backendip  >> inventory
-            cat  inventory
-      - run:
-          name: Install openssh
-          command: |
-            apk add openssh-client      
+            cat  inventory   
       - run:
           name: Configure prometheus 
           command: |
