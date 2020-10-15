@@ -297,12 +297,12 @@ workflows:
 #      - configure_infrastructure:
 #          requires:
 #            - get_instance_ip        
-       - configure_infrastructure
+#       - configure_infrastructure
 
-#      - create_infrastructure
-#      - configure_infrastructure:
-#          requires:
-#            - create_infrastructure
+      - create_infrastructure
+      - configure_infrastructure:
+          requires:
+            - create_infrastructure
  
 
 
