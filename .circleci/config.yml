@@ -240,7 +240,7 @@ jobs:
       - run:
           name: Get the instance ip address for backend 
           command: |
-            echo "[backend]" > inventory.txt
+            echo "[all]" > inventory.txt
             curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/backendip  >> inventory.txt
             cat  inventory.txt
       - run:
@@ -311,12 +311,12 @@ workflows:
 #          requires:
 #            - get_instance_ip        
 
-#      - configure_infrastructure
+      - configure_infrastructure
 
-      - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+#      - create_infrastructure
+#      - configure_infrastructure:
+#          requires:
+#            - create_infrastructure
  
 
 

@@ -1,10 +1,10 @@
 
 - name: "configuration play."
-  hosts: backend
-  user: ubuntu
+  hosts: all
+  user: ec2-user
   become: true
   gather_facts: true
-  
+
 
   vars:
     - ansible_python_interpreter: /usr/bin/python3
