@@ -1,6 +1,6 @@
 
 - name: "configuration play."
-  user: ubuntu
+  user: ec2-user
   hosts: all
   become: true
   gather_facts: true
