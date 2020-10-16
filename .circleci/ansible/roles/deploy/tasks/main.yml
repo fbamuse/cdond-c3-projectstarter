@@ -9,7 +9,7 @@
     pm2 stop backend
     pm2 delete backend
 - name: Build node service
-   shell: |
+  shell: |
     cd /home/ubuntu/backend
     npm i
     npm audit fix --audit-level=critical --force
