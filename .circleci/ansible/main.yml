@@ -4,7 +4,7 @@
   hosts: all
   become: true
   gather_facts: true
-  timeout: '20'
+
 
 
   vars:
