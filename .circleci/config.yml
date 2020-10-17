@@ -244,6 +244,8 @@ jobs:
       - run:
           name: Get the instance ip address for backend 
           command: |
+            echo "[ssh_connection]" > ansible.cfg
+            echo  "scp_if_ssh=True" >> ansible.cfg
             echo "[all]" > inventory.txt
             curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/backendip  >> inventory.txt
             cat  inventory.txt
