@@ -1,7 +1,6 @@
 - name: Copy files from circleci to backend server
   copy:
-#    src: /root/project/backend
-    dist: 
+    src: /root/project/backend
     dest: /home/ubuntu/
 
 - name: Stop PM2
