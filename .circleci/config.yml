@@ -240,6 +240,7 @@ jobs:
           command: |
             apk add --update ansible # install the dependencies needed for your playbook
             apk add curl
+            apk add openssh-client
       - run:
           name: Get the instance ip address for backend 
           command: |
