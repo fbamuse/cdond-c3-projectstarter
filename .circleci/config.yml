@@ -254,6 +254,7 @@ jobs:
             cat  inventory.txt
       - run:
           name: Configure server with ansible
+          no_output_timeout: 15m
           command: |
             echo ENVIROMENT=production > "backend/.env"
             echo TYPEORM_CONNECTION=postgres >> "backend/.env"
