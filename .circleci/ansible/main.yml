@@ -7,6 +7,7 @@
   scp_if_ssh: true
   timeout: 20
 
+  
   vars:
     - ansible_python_interpreter: /usr/bin/python3
     - ansible_host_key_checking: false
