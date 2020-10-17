@@ -259,7 +259,8 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
-        
+            
+            
             ansible-playbook -i inventory.txt  .circleci/ansible/main.yml
 
 
@@ -314,7 +315,7 @@ workflows:
 #          requires:
 #            - get_instance_ip        
        - get_ips
-       
+
        - configure_infrastructure:
           requires:
             - get_ips
