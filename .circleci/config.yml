@@ -320,7 +320,7 @@ workflows:
       - create_infrastructure
       - get_ips: 
             requires:
-              -create_infrastructure
+              - create_infrastructure
       - configure_infrastructure:
           requires:
             - get_ips        
