@@ -319,8 +319,8 @@ workflows:
       
 #      - create_infrastructure
       - get_ips
- #           requires:
- #             - analyze-backend
+            requires:
+              - analyze-backend
       - configure_infrastructure:
           requires:
             - get_ips        
