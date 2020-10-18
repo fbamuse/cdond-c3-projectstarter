@@ -318,14 +318,14 @@ workflows:
             - test-backend
       
 #      - create_infrastructure
-      - get_ips: 
-            requires:
-              - create_infrastructure
+      - get_ips
+ #           requires:
+ #             - create_infrastructure
       - configure_infrastructure:
           requires:
             - get_ips        
 
-            
+
  #     - get_ips
  #     - configure_infrastructure:
  #         requires:
