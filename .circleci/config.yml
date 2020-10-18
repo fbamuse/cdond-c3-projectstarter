@@ -325,7 +325,6 @@ workflows:
           requires:
             - get_ips        
 
-
  #     - get_ips
  #     - configure_infrastructure:
  #         requires:
