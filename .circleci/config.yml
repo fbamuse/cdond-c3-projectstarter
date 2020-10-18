@@ -301,40 +301,38 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-#      - build-frontend
-#      - test-frontend:
-#          requires:
-#            - build-frontend
-#      - analyze-frontend:
-#          requires:
-#            - test-frontend
-          
-#      - build-backend
-#      - test-backend:
-#          requires:
-#            - build-backend
-#      - analyze-backend:
-#          requires:
-#            - test-backend
-
-#      - get_instance_ip 
-#      - configure_infrastructure:
-#          requires:
-#            - get_instance_ip        
-       - get_ips
-
-       - configure_infrastructure:
+      - build-frontend
+      - test-frontend:
           requires:
-            - get_ips
+            - build-frontend
+      - analyze-frontend:
+          requires:
+            - test-frontend
+          
+      - build-backend
+      - test-backend:
+          requires:
+            - build-backend
+      - analyze-backend:
+          requires:
+            - test-backend
+      
+      - create_infrastructure
+      - get_ips: 
+            requires:
+              -create_infrastructure
+      - configure_infrastructure:
+          requires:
+            - get_instance_ip        
 
- #      - create_infrastructure
- #      - configure_infrastructure:
+
+ #     - get_ips
+ #     - configure_infrastructure:
  #         requires:
- #            - create_infrastructure
+ #           - get_ips
+
+       
+
  
 
-
-
-#     - create_infrastructure_cloudfront     
- #     - create_infrastructure_frontend
 
