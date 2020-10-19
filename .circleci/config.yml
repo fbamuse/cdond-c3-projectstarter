@@ -267,7 +267,7 @@ jobs:
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
             
             
-            ansible-playbook -i inventory.txt  .circleci/ansible/main.yml --timeout=3000
+            ansible-playbook -i inventory.txt  .circleci/ansible/main.yml --timeout=400
 
 
 
