@@ -316,7 +316,7 @@ workflows:
           requires:
             - test-backend
       
-      - create_infrastructure
+ #     - create_infrastructure
       - get_ips:
             requires:
               - analyze-backend
