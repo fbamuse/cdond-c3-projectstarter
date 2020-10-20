@@ -293,7 +293,7 @@ jobs:
             else
             curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID:0:7}" --request PUT --data "false" https://api.memstash.io/values/<< pipeline.id >>_migrations
             fi
-      - destroy-stack
+
 
 
 
