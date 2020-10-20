@@ -325,8 +325,7 @@ jobs:
           command: | 
             printenv >> ./backend/.env
             cat ./backend/.env
-            cd .circleci/ansible/ 
-            ansible-playbook -i inventory.txt  copy_deploy.yml
+            ansible-playbook -i inventory.txt  .circleci/ansible/copy_deploy.yml
 
 #  build-frontend:
 
