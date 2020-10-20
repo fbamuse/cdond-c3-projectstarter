@@ -373,7 +373,7 @@ workflows:
 
       - build_copy_backend_files:
           requires:
-            - run_db_migrations:
+            - run_db_migrations
 
  #     - get_ips
  #     - configure_infrastructure:
