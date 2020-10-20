@@ -334,25 +334,6 @@ jobs:
 
 #  test-frontend:
 
-#  est-backend:
-
-#  can-frontend:
-
-#  scan-backend:
-
-#  deploy-infrastructure:
-
-#  configure-infrastructure:
-
-#  run-migrations:
-
-#  deploy-frontend:
-
-#  deploy-backend:  
-
-#  smoke-test:
-
-#  cloudfront-update:
 
 workflows:
   my_workflow:
@@ -391,8 +372,8 @@ workflows:
             - configure_infrastructure
 
       - build_copy_backend_files:
-        requires:
-          - run_db_migrations:
+          requires:
+            - run_db_migrations:
 
  #     - get_ips
  #     - configure_infrastructure:
