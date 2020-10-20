@@ -266,9 +266,34 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
-            
-            
+          
             ansible-playbook -i inventory.txt  .circleci/ansible/main.yml 
+
+#  run-migrations:
+  run_db_migrations:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run: 
+         cd backend && npm install
+      - run: 
+          name: Run database migrations 
+          no_output_timeout: 10m
+          command: |
+            touch migration_results.txt
+            cd backend && npm run migrations > migration_results.txt
+      - run:
+          name: Save result value
+          command: |
+            cd backend
+            if grep "executed successfully" migration_results.txt
+            then
+            curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID:0:7}" --request PUT --data "true" https://api.memstash.io/values/<< pipeline.id >>_migrations
+            else
+            curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID:0:7}" --request PUT --data "false" https://api.memstash.io/values/<< pipeline.id >>_migrations
+            fi
+      - destroy-stack
 
 
 
