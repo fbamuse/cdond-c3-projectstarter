@@ -279,7 +279,6 @@ jobs:
          cd backend && npm install
       - run: 
           name: Run database migrations 
-          no_output_timeout: 10m
           command: |
             touch migration_results.txt
             cd backend && npm run migrations > migration_results.txt
@@ -289,12 +288,44 @@ jobs:
             cd backend
             if grep "executed successfully" migration_results.txt
             then
-            curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID:0:7}" --request PUT --data "true" https://api.memstash.io/values/<< pipeline.id >>_migrations
+            curl -H "Content-Type: text/plain" -H "token:c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data "true" https://api.memstash.io/values/<< pipeline.id >>_migrations
             else
-            curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID:0:7}" --request PUT --data "false" https://api.memstash.io/values/<< pipeline.id >>_migrations
+            curl -H "Content-Type: text/plain" -H "token:c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data "false" https://api.memstash.io/values/<< pipeline.id >>_migrations
             fi
 
+  build_copy_backend_files:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - run: apk --no-cache add curl
+      - run: apk add --no-cache --upgrade bash
+      - run:
+        name: Install dependencies
+        command: |
+          apk add --update ansible # install the dependencies needed for your playbook
+          apk add curl
+          apk add openssh-client
+      - run:
+          name: store the backend ip address to memstash so that frontend can use it. 
+          command: |
+            echo "[ssh_connection]" > ansible.cfg
+            echo "scp_if_ssh=True" >> ansible.cfg
+            echo "timeout=20">> ansible.cfg
+            cat ansible.cfg
 
+            echo "[all]" > inventory.txt
+            curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/backendip  >> inventory.txt
+            cat  inventory.txt
+          fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a] # You can get this ID in the section where you registered the SSH Key
+      - run:
+          name: Copy files to server
+          no_output_timeout: 60m
+          command: | 
+            printenv >> ./backend/.env
+            cat ./backend/.env
+            cd .circleci/ansible/ 
+            ansible-playbook -i inventory.txt  deploy.yml
 
 
 
@@ -359,6 +390,9 @@ workflows:
           requires:
             - configure_infrastructure
 
+      - build_copy_backend_files:
+        requires:
+          - run_db_migrations:
 
  #     - get_ips
  #     - configure_infrastructure:
