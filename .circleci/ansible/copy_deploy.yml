@@ -1,9 +1,9 @@
 - name: copy backend files to server #1
-    hosts: all
-    user: ubuntu
-    vars:
-    ansible_python_interpreter: /usr/bin/python3
-    host_key_checking: false
-    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-    roles:
+  hosts: all
+  user: ubuntu
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3
+    - host_key_checking: false
+    - ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+  roles:
     - deploy
