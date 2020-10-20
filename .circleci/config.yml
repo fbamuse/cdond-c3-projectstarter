@@ -349,7 +349,7 @@ workflows:
 
       - get_ips:
             requires:
-              - analyze-backend
+              - create_infrastructure
 
       - configure_infrastructure:
           requires:
