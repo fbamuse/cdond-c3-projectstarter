@@ -318,7 +318,7 @@ jobs:
             curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/backendip  >> inventory.txt
             cat  inventory.txt
           fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a] # You can get this ID in the section where you registered the SSH Key
-          
+
       - run:
           name: Copy files to server
           no_output_timeout: 60m
@@ -326,7 +326,7 @@ jobs:
             printenv >> ./backend/.env
             cat ./backend/.env
             cd .circleci/ansible/ 
-            ansible-playbook -i inventory.txt  deploy.yml
+            ansible-playbook -i inventory.txt  .circleci/ansible/deploy.yml
 
 
 
@@ -339,42 +339,43 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - build-frontend
-      - test-frontend:
-          requires:
-            - build-frontend
-      - analyze-frontend:
-          requires:
-            - test-frontend
-          
-      - build-backend
-      - test-backend:
-          requires:
-            - build-backend
+ #    - build-frontend
+ #    - test-frontend:
+ #        requires:
+ #          - build-frontend
+ #    - analyze-frontend:
+ #        requires:
+ #          - test-frontend
+ #        
+ #    - build-backend
+ #    - test-backend:
+ #        requires:
+ #          - build-backend
 
-      - analyze-backend:
-          requires:
-            - test-backend
-      
-      - create_infrastructure:
-          requires:
-            - analyze-backend
+ #    - analyze-backend:
+ #        requires:
+ #          - test-backend
+ #    
+ #    - create_infrastructure:
+ #        requires:
+ #          - analyze-backend
 
-      - get_ips:
-            requires:
-              - create_infrastructure
+ #    - get_ips:
+ #          requires:
+ #            - create_infrastructure
 
-      - configure_infrastructure:
-          requires:
-            - get_ips 
-            
-      - run_db_migrations:
-          requires:
-            - configure_infrastructure
+ #    - configure_infrastructure:
+ #        requires:
+ #          - get_ips 
+ #          
+ #    - run_db_migrations:
+ #        requires:
+ #          - configure_infrastructure
 
-      - build_copy_backend_files:
-          requires:
-            - run_db_migrations
+ #    - build_copy_backend_files:
+ #        requires:
+ #          - run_db_migrations
+      - build_copy_backend_files
 
  #     - get_ips
  #     - configure_infrastructure:
