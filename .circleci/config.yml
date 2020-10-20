@@ -338,17 +338,25 @@ workflows:
       - test-backend:
           requires:
             - build-backend
+            
       - analyze-backend:
           requires:
             - test-backend
       
- #     - create_infrastructure
+      - create_infrastructure:
+          requires:
+            - analyze-backend
+
       - get_ips:
             requires:
               - analyze-backend
       - configure_infrastructure:
           requires:
-            - get_ips        
+            - get_ips 
+            
+      - run_db_migrations:
+        requires:
+          - configure_infrastructure
 
 
  #     - get_ips
