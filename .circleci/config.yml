@@ -328,9 +328,6 @@ jobs:
             cd .circleci/ansible/ 
             ansible-playbook -i inventory.txt  copy_deploy.yml
 
-
-
-
 #  build-frontend:
 
 #  test-frontend:
