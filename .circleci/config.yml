@@ -320,6 +320,7 @@ jobs:
             npm install
             npm run build
             cd dist
+            
             aws s3 sync . s3://udapeople-"${CIRCLE_WORKFLOW_ID}" --delete
 
   build_copy_backend_files:
