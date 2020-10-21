@@ -292,69 +292,7 @@ jobs:
             else
             curl -H "Content-Type: text/plain" -H "token:c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data "false" https://api.memstash.io/values/<< pipeline.id >>_migrations
             fi
-  deploy-frontend:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update tar gzip ansible nodejs npm curl
-            pip install awscli
-      - run:
-          name: Get backend url
-          command: |
-            export BACKEND_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text)
-            export API_URL=http://$BACKEND_IP:3030
-            echo "API_URL=$API_URL" > frontend/.env
-            echo "${API_URL}"
-      - run:
-          name: Deploy frontend objects
-          command: |
-            npm install webpack-dev-server -g
-            cd frontend
-            npm install
-            npm run build
-            cd dist
-            aws s3 sync . s3://udapeople-"${CIRCLE_WORKFLOW_ID}" --delete
-      - destroy-environment
-      - revert-migration
 
-  deploy-frontend:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update tar gzip ansible nodejs npm curl
-            pip install awscli
-      - run:
-          name: Get backend url
-          command: |
-            export BACKEND_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text)
-            export API_URL=http://$BACKEND_IP:3030
-            echo "API_URL=$API_URL" > frontend/.env
-            echo "${API_URL}"
-      - run:
-          name: Deploy frontend objects
-          command: |
-            npm install webpack-dev-server -g
-            cd frontend
-            npm install
-            npm run build
-            cd dist
-            aws s3 sync . s3://udapeople-"${CIRCLE_WORKFLOW_ID}" --delete
-      - destroy-environment
-      - revert-migration
 
   deploy-frontend:
     docker:
@@ -449,6 +387,7 @@ workflows:
     - get_ips:
           requires:
             - create_infrastructure
+
     - configure_infrastructure:
         requires:
           - get_ips 
