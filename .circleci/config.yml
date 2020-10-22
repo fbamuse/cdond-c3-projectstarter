@@ -301,10 +301,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-          apk add --no-cache nodejs
-          apk add --no-cache npm
-          apk add --no-cache bash
-          pip install awscli
+            apk add --no-cache nodejs
+            apk add --no-cache npm
+            apk add --no-cache bash
+            pip install awscli
       - run:
           name: Get backend url
           command: |
