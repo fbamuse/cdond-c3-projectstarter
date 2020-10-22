@@ -416,7 +416,7 @@ workflows:
       - create_infrastructure:
           requires:
             - analyze-backend
-      - get_ips
+      - get_ips:
               requires:
                 - create_infrastructure
 
