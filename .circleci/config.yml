@@ -301,8 +301,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update npm 
-            pip install awscli
+          apk add --no-cache nodejs
+          apk add --no-cache npm
+          apk add --no-cache bash
+          pip install awscli
       - run:
           name: Get backend url
           command: |
@@ -315,10 +317,10 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            npm install webpack-dev-server -g
+            sudo npm install webpack-dev-server -g
             cd frontend
-            npm install
-            npm run build
+            sudo npm install
+            sudo npm run build
             cd dist
 
             aws s3 sync . s3://udapeople-"${CIRCLE_WORKFLOW_ID:0:7}" --delete
@@ -414,25 +416,25 @@ workflows:
 #   - create_infrastructure:
 #       requires:
 #         - analyze-backend
-#   - get_ips:
-#         requires:
-#           - create_infrastructure
-#
-#   - configure_infrastructure:
-#       requires:
-#         - get_ips 
-#         
-#   - run_db_migrations:
-#       requires:
-#         - configure_infrastructure
-#
-#   - deploy-frontend:
-#       requires:
-#         - run_db_migrations
-#
-#   - build_copy_backend_files:
-#       requires:
-#         - deploy-frontend
+   - get_ips:
+         requires:
+           - create_infrastructure
+
+   - configure_infrastructure:
+       requires:
+         - get_ips 
+         
+   - run_db_migrations:
+       requires:
+         - configure_infrastructure
+
+   - deploy-frontend:
+       requires:
+         - run_db_migrations
+
+   - build_copy_backend_files:
+       requires:
+         - deploy-frontend
     - smoke-test  
 
 
