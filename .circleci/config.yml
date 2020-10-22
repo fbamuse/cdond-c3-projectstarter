@@ -356,6 +356,37 @@ jobs:
             cat ./backend/.env
             ansible-playbook -i inventory.txt  .circleci/ansible/copy_deploy.yml
 
+
+  smoke-test:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl
+            pip install awscli
+      - run:
+          name: Smoke test backend
+          command: |
+            BACKEND_IP=$(aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --output text)
+            echo "${BACKEND_IP}"
+            curl "http://${BACKEND_IP}:3030/api/status"
+      - run:
+          name: Smoke test frontend
+          command: |
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com/#/employees"
+            if curl -s ${URL} | grep "Welcome"
+            then
+              return 0
+            else
+              return 1
+            fi
+  #     - destroy-environment
+  #     - revert-migration
+
 #  build-frontend:
 
 #  test-frontend:
@@ -364,46 +395,47 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-    - build-frontend
-    - test-frontend:
-        requires:
-          - build-frontend
-    - analyze-frontend:
-        requires:
-          - test-frontend
-        
-    - build-backend
-    - test-backend:
-        requires:
-          - build-backend
-    - analyze-backend:
-        requires:
-          - test-backend
-    
-    - create_infrastructure:
-        requires:
-          - analyze-backend
-    - get_ips:
-          requires:
-            - create_infrastructure
+#   - build-frontend
+#   - test-frontend:
+#       requires:
+#         - build-frontend
+#   - analyze-frontend:
+#       requires:
+#         - test-frontend
+#       
+#   - build-backend
+#   - test-backend:
+#       requires:
+#         - build-backend
+#   - analyze-backend:
+#       requires:
+#         - test-backend
+#   
+#   - create_infrastructure:
+#       requires:
+#         - analyze-backend
+#   - get_ips:
+#         requires:
+#           - create_infrastructure
+#
+#   - configure_infrastructure:
+#       requires:
+#         - get_ips 
+#         
+#   - run_db_migrations:
+#       requires:
+#         - configure_infrastructure
+#
+#   - deploy-frontend:
+#       requires:
+#         - run_db_migrations
+#
+#   - build_copy_backend_files:
+#       requires:
+#         - deploy-frontend
+    - smoke-test  
 
-    - configure_infrastructure:
-        requires:
-          - get_ips 
-          
-    - run_db_migrations:
-        requires:
-          - configure_infrastructure
 
-    - deploy-frontend:
-        requires:
-          - run_db_migrations
-
-    - build_copy_backend_files:
-        requires:
-          - deploy-frontend
-
-          
 
 
 
