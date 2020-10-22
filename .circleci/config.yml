@@ -416,9 +416,9 @@ workflows:
 #   - create_infrastructure:
 #       requires:
 #         - analyze-backend
-   - get_ips:
-         requires:
-           - create_infrastructure
+   - get_ips
+ #        requires:
+ #          - create_infrastructure
 
    - configure_infrastructure:
        requires:
@@ -435,7 +435,10 @@ workflows:
    - build_copy_backend_files:
        requires:
          - deploy-frontend
-    - smoke-test  
+
+   - smoke-test:
+        requires:
+          - build_copy_backend_files
 
 
 
