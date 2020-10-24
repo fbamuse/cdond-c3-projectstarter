@@ -362,13 +362,8 @@ jobs:
 
   smoke-test:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: amazon/aws-cli
     steps:
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update curl
-            pip install awscli
       - run:
           name: Smoke test backend
           command: |
