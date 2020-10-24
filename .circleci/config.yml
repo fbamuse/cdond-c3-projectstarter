@@ -424,7 +424,7 @@ workflows:
           requires:
             - configure_infrastructure
 
-      - deploy-frontend
+      - deploy-frontend: 
           requires:
             - run_db_migrations
 
