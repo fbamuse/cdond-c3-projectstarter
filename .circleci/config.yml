@@ -427,9 +427,10 @@ workflows:
 #     - deploy-frontend: 
 #         requires:
 #           - run_db_migrations
-
-      - build_copy_backend_files
- #         requires:
+      - get_ips:
+      - build_copy_backend_files:
+          requires:
+              -get_ips
  #           - deploy-frontend
       - smoke-test:
             requires:
