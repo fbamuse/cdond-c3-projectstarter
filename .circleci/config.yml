@@ -393,44 +393,44 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - build-frontend
-      -  test-frontend:
-            requires:
-            - build-frontend
-      - analyze-frontend:
-          requires:
-            - test-frontend
-          
-      - build-backend
-      - test-backend:
-          requires:
-            - build-backend
-      - analyze-backend:
-          requires:
-            - test-backend
-          
-      - create_infrastructure:
-          requires:
-            - analyze-backend
-      - get_ips:
-              requires:
-                - create_infrastructure
+#     - build-frontend
+#     -  test-frontend:
+#           requires:
+#           - build-frontend
+#     - analyze-frontend:
+#         requires:
+#           - test-frontend
+#         
+#     - build-backend
+#     - test-backend:
+#         requires:
+#           - build-backend
+#     - analyze-backend:
+#         requires:
+#           - test-backend
+#         
+#     - create_infrastructure:
+#         requires:
+#           - analyze-backend
+#     - get_ips:
+#             requires:
+#               - create_infrastructure
+#
+#     - configure_infrastructure:
+#         requires:
+#           - get_ips 
+#           
+#     - run_db_migrations:
+#         requires:
+#           - configure_infrastructure
+#
+#     - deploy-frontend: 
+#         requires:
+#           - run_db_migrations
 
-      - configure_infrastructure:
-          requires:
-            - get_ips 
-            
-      - run_db_migrations:
-          requires:
-            - configure_infrastructure
-
-      - deploy-frontend: 
-          requires:
-            - run_db_migrations
-
-      - build_copy_backend_files:
-          requires:
-            - deploy-frontend
+      - build_copy_backend_files
+ #         requires:
+ #           - deploy-frontend
 
       - smoke-test:
             requires:
