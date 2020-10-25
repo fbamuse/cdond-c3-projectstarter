@@ -8,6 +8,8 @@
 #  shell: |
 #    pm2 stop backend
 #    pm2 delete backend
+
+
 - name: Build node service
   shell: |
     cd /home/ubuntu/backend
