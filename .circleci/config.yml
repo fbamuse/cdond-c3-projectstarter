@@ -415,28 +415,29 @@ workflows:
       - get_ips:
               requires:
                 - create_infrastructure
-              
+
       - configure_infrastructure:
           requires:
             - get_ips 
-            
+
       - run_db_migrations:
           requires:
             - configure_infrastructure
-          
+
       - deploy-frontend: 
           requires:
             - run_db_migrations
-          
+
       - build_copy_backend_files:
           requires:
             - deploy-frontend
-          
+
       - smoke-test:
             requires:
               - build_copy_backend_files
 
 
+              
 #    - get_ips
 #    - build_copy_backend_files :
 #            requires:
