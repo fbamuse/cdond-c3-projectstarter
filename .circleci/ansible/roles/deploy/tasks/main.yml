@@ -1,7 +1,7 @@
-#- name: Copy files from circleci to backend server
-#  copy:
-#    src: /root/project/backend
-#    dest: /home/ubuntu/
+- name: Copy files from circleci to backend server
+  copy:
+    src: /root/project/backend
+    dest: /home/ubuntu/
 
 - name: Stop PM2
   ignore_errors: yes
@@ -22,5 +22,5 @@
   shell: |
     cd /home/ubuntu/backend
     pm2 start npm --name backend -- start
-    
+
     
