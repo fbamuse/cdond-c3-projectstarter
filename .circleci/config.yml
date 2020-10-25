@@ -437,7 +437,7 @@ workflows:
 #             - build_copy_backend_files
 #
 
-      - get_ips:
+      - get_ips
 
       - build_copy_backend_files :
              requires:
