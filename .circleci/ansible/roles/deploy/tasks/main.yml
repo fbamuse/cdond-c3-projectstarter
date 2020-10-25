@@ -3,11 +3,11 @@
 #    src: /root/project/backend
 #    dest: /home/ubuntu/
 
-#- name: Stop PM2
-#  ignore_errors: yes
-#  shell: |
-#    pm2 stop backend
-#    pm2 delete backend
+- name: Stop PM2
+  ignore_errors: yes
+  shell: |
+    pm2 stop backend
+    pm2 delete backend
 
 
 - name: Build node service
