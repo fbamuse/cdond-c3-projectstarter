@@ -436,8 +436,12 @@ workflows:
 #           requires:
 #             - build_copy_backend_files
 #
-      - build_copy_backend_files
- 
+
+     - get_ips:
+
+      - build_copy_backend_files :
+             requires:
+               - get_ips
 
       - smoke-test:
             requires:
