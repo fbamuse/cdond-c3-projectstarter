@@ -436,7 +436,7 @@ workflows:
 #           requires:
 #             - build_copy_backend_files
 #
-      - build_copy_backend_files:
+      - build_copy_backend_files
  
 
       - smoke-test:
