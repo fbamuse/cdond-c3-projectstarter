@@ -17,6 +17,7 @@
     npm audit fix --audit-level=critical --force
     npm run build 
 
+    
 - name: Start pm2 service
   become: true
   shell: |
