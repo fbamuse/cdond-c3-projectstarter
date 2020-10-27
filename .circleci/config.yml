@@ -405,10 +405,12 @@ jobs:
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-ap-northeast-1.amazonaws.com/#/employees"
             if curl -s ${URL} | grep "Welcome"
             then
-              exit 1
-            else
               exit 0
+            else
+              exit 1
             fi
+     - destroy-environment
+     - revert-migration
 
   cloudfront-update:
     docker:
@@ -491,6 +493,7 @@ workflows:
 
 
 
+              
               
               
 #    - get_ips
