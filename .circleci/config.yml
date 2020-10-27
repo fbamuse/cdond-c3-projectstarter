@@ -407,15 +407,39 @@ jobs:
             then
               exit 1
             else
-              exit 1
+              exit 0
             fi
 
-      - destroy-environment
-      - revert-migration
-
-#  build-frontend:
-
-#  test-frontend:
+  cloudfront-update:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a]
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update nodejs npm curl
+            pip install awscli
+      - run:
+          name: Promote CloudFront distribution and clean up old resources
+          command: |
+            export OldWorkflowID=$(aws cloudformation \
+              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+              --no-paginate --output text)
+            export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+              --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
+            echo Old Workflow Id: "$OldWorkflowID"
+            echo "$STACKS[*]"
+            if echo "$STACKS[*]" | grep -Eq "$OldWorkflowID" 
+            then
+              echo "${OldWorkflowID}"
+              echo "This is the bucket: "
+              echo udapeople-${OldWorkflowID}
+              echo "This is the bucket url: "
+              echo "s3://udapeople-${OldWorkflowID}"
+            fi
 
 workflows:
   my_workflow:
@@ -438,8 +462,8 @@ workflows:
             - test-backend
           
       - create_infrastructure:
-          requires:
-            - analyze-backend
+          requires: [analyze-backend, nalyze-frontend]
+
       - get_ips:
               requires:
                 - create_infrastructure
@@ -458,11 +482,13 @@ workflows:
 
       - build_copy_backend_files:
           requires:
-            - deploy-frontend
+            - run_db_migrations
 
       - smoke-test:
-            requires:
-              - build_copy_backend_files
+            requires: [build_copy_backend_files,deploy-frontend]
+      - cloudfront-update:
+            requires: 
+              - smoke-test
 
 
 
