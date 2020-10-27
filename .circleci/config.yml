@@ -17,7 +17,7 @@ commands:
       - run:
           name: Destroy environment
           command: |
-            aws s3 rm "s3://udapeople-${CIRCLE_WORKFLOW_ID}" --recursive
+            aws s3 rm "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
             aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
             aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
           when: on_fail
@@ -404,13 +404,13 @@ jobs:
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-ap-northeast-1.amazonaws.com/#/employees"
             if curl -s ${URL} | grep "Welcome"
             then
-            return 0
+              exit 1
             else
-            return 1
+              exit 1
             fi
 
-      - destroy-environment
-      - revert-migration
+      #- destroy-environment
+      #- revert-migration
 
 #  build-frontend:
 
