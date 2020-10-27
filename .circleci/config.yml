@@ -444,7 +444,6 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-
       - build-frontend
       -  test-frontend:
             requires:
