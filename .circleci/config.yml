@@ -6,10 +6,36 @@ parameters:
   ID:
     type: string
     default: "1"
-  
 
 orbs:
   slack: circleci/slack@3.4.2
+
+commands:
+  destroy-environment:
+    description: Destroy the backend and frontend cloudformation stacks given a workflow ID.
+    steps:
+      - run:
+          name: Destroy environment
+          command: |
+            aws s3 rm "s3://udapeople-${CIRCLE_WORKFLOW_ID}" --recursive
+            aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID}"
+            aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID}"
+          when: on_fail
+
+  revert-migration:
+    description: Revert the last migration if successfully run in the current workflow.
+    steps:
+      - run:
+          name: Revert migrations
+          when: on_fail
+          command: |
+            SUCCESS=$(curl -H "token: c3920663-0eac-4f65-b600-6c42c191040a" --request GET https://api.memstash.io/values/<< pipeline.id >>_migrations)
+            if (( $SUCCESS == 1 ));
+            then
+              cd ~/project/backend
+              npm install
+              npm run migration:revert
+            fi
 
 
 ### It's a good practice to keep your commands at the top of the config file. In this project, you'll need at least 2 commands:
@@ -378,12 +404,12 @@ jobs:
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-ap-northeast-1.amazonaws.com/#/employees"
             if curl -s ${URL} | grep "Welcome"
             then
-              return 0
+            return 0
             else
-              return 1
+            return 1
             fi
-  #     - destroy-environment
-  #     - revert-migration
+       - destroy-environment
+       - revert-migration
 
 #  build-frontend:
 
@@ -393,48 +419,49 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - build-frontend
-      -  test-frontend:
-            requires:
-            - build-frontend
-      - analyze-frontend:
-          requires:
-            - test-frontend
-          
-      - build-backend
-      - test-backend:
-          requires:
-            - build-backend
-      - analyze-backend:
-          requires:
-            - test-backend
-          
-      - create_infrastructure:
-          requires:
-            - analyze-backend
-      - get_ips:
-              requires:
-                - create_infrastructure
+      - smoke-test 
+ #    - build-frontend
+ #    -  test-frontend:
+ #          requires:
+ #          - build-frontend
+ #    - analyze-frontend:
+ #        requires:
+ #          - test-frontend
+ #        
+ #    - build-backend
+ #    - test-backend:
+ #        requires:
+ #          - build-backend
+ #    - analyze-backend:
+ #        requires:
+ #          - test-backend
+ #        
+ #    - create_infrastructure:
+ #        requires:
+ #          - analyze-backend
+ #    - get_ips:
+ #            requires:
+ #              - create_infrastructure
 
-      - configure_infrastructure:
-          requires:
-            - get_ips 
+ #    - configure_infrastructure:
+ #        requires:
+ #          - get_ips 
 
-      - run_db_migrations:
-          requires:
-            - configure_infrastructure
+ #    - run_db_migrations:
+ #        requires:
+ #          - configure_infrastructure
 
-      - deploy-frontend: 
-          requires:
-            - run_db_migrations
+ #    - deploy-frontend: 
+ #        requires:
+ #          - run_db_migrations
 
-      - build_copy_backend_files:
-          requires:
-            - deploy-frontend
+ #    - build_copy_backend_files:
+ #        requires:
+ #          - deploy-frontend
 
-      - smoke-test:
-            requires:
-              - build_copy_backend_files
+ #    - smoke-test:
+ #          requires:
+ #            - build_copy_backend_files
 
               
 
