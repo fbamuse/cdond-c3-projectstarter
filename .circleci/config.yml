@@ -462,7 +462,7 @@ workflows:
             - test-backend
           
       - create_infrastructure:
-          requires: [analyze-backend, nalyze-frontend]
+          requires: [analyze-backend, analyze-frontend]
 
       - get_ips:
               requires:
