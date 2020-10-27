@@ -17,7 +17,6 @@ commands:
       - run:
           name: Destroy environment
           command: |
-            echo "${CIRCLE_WORKFLOW_ID:0:7}""
             aws s3 rm "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
             aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
             aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
@@ -417,55 +416,54 @@ jobs:
 
 #  test-frontend:
 
-
 workflows:
   my_workflow:
     jobs:
-      - smoke-test 
- #    - build-frontend
- #    -  test-frontend:
- #          requires:
- #          - build-frontend
- #    - analyze-frontend:
- #        requires:
- #          - test-frontend
- #        
- #    - build-backend
- #    - test-backend:
- #        requires:
- #          - build-backend
- #    - analyze-backend:
- #        requires:
- #          - test-backend
- #        
- #    - create_infrastructure:
- #        requires:
- #          - analyze-backend
- #    - get_ips:
- #            requires:
- #              - create_infrastructure
 
- #    - configure_infrastructure:
- #        requires:
- #          - get_ips 
+      - build-frontend
+      -  test-frontend:
+            requires:
+            - build-frontend
+      - analyze-frontend:
+          requires:
+            - test-frontend
+          
+      - build-backend
+      - test-backend:
+          requires:
+            - build-backend
+      - analyze-backend:
+          requires:
+            - test-backend
+          
+      - create_infrastructure:
+          requires:
+            - analyze-backend
+      - get_ips:
+              requires:
+                - create_infrastructure
 
- #    - run_db_migrations:
- #        requires:
- #          - configure_infrastructure
+      - configure_infrastructure:
+          requires:
+            - get_ips 
 
- #    - deploy-frontend: 
- #        requires:
- #          - run_db_migrations
+      - run_db_migrations:
+          requires:
+            - configure_infrastructure
 
- #    - build_copy_backend_files:
- #        requires:
- #          - deploy-frontend
+      - deploy-frontend: 
+          requires:
+            - run_db_migrations
 
- #    - smoke-test:
- #          requires:
- #            - build_copy_backend_files
+      - build_copy_backend_files:
+          requires:
+            - deploy-frontend
 
-              
+      - smoke-test:
+            requires:
+              - build_copy_backend_files
+
+
 
               
               
