@@ -240,10 +240,9 @@ jobs:
               --region ap-northeast-1 \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --tags project=udapeople \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}" 
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" 
       - destroy-environment
-      - revert-migration
+
 
 
   get_ips:
@@ -298,6 +297,7 @@ jobs:
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
           
             ansible-playbook -i inventory.txt  .circleci/ansible/main.yml 
+      - destroy-environment
 
 #  run-migrations:
   run_db_migrations:
@@ -322,6 +322,7 @@ jobs:
             else
             curl -H "Content-Type: text/plain" -H "token:c3920663-0eac-4f65-b600-6c42c191040a" --request PUT --data "false" https://api.memstash.io/values/<< pipeline.id >>_migrations
             fi
+      - destroy-environment
 
   deploy-frontend:
     docker:
@@ -355,6 +356,8 @@ jobs:
 
             cd dist
             aws s3 sync . s3://udapeople-"${CIRCLE_WORKFLOW_ID:0:7}" --delete
+      - destroy-environment
+      - revert-migration
 
   build_copy_backend_files:
     docker:
@@ -388,7 +391,8 @@ jobs:
             printenv >> ./backend/.env
             cat ./backend/.env
             ansible-playbook -i inventory.txt  .circleci/ansible/copy_deploy.yml
-
+      - destroy-environment
+      - revert-migration
 
   smoke-test:
     docker:
