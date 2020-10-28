@@ -421,6 +421,11 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a]
+          name: Install dependencies
+      - run:
+          command: |
+            apk add --update nodejs npm curl bash
+            pip install awscli
       - run:
           name: cloudfront_infrastructure
           command: |
