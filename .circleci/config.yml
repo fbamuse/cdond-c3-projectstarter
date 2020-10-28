@@ -426,17 +426,17 @@ jobs:
           command: |
             apk add --update nodejs npm curl bash
             pip install awscli
-      - run:
-          name: cloudfront_infrastructure
-          command: |
-            aws cloudformation deploy \
-              --region ap-northeast-1 \
-              --template-file .circleci/files/cloudfront.yml \
-              --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
-      - run:
-          name: Wait for the cf stack to complete
-          command : sleep 300  
+ #    - run:
+ #        name: cloudfront_infrastructure
+ #        command: |
+ #          aws cloudformation deploy \
+ #            --region ap-northeast-1 \
+ #            --template-file .circleci/files/cloudfront.yml \
+ #            --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
+ #            --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
+ #    - run:
+ #        name: Wait for the cf stack to complete
+ #        command : sleep 300  
 
       - run:
           name: Promote CloudFront distribution and clean up old resources
