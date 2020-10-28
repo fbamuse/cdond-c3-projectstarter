@@ -242,6 +242,9 @@ jobs:
               --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople \
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}" 
+      - destroy-environment
+      - revert-migration
+
 
   get_ips:
     docker:
