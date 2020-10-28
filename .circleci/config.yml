@@ -456,6 +456,13 @@ jobs:
               echo "This is the bucket url: "
               echo "s3://udapeople-${OldWorkflowID}"
             fi
+            if [ -n "${OldWorkflowID}" ]
+            then
+              echo Cleanup old S3 bucket frontend and backend stack
+              aws s3 rm s3://udapeople-frontend-${OldWorkflowID}/ --recursive
+              aws cloudformation delete-stack --stack-name udapeople-frontend-${OldWorkflowID}          
+              aws cloudformation delete-stack --stack-name udapeople-backend-${OldWorkflowID}
+            fi
 
 workflows:
   my_workflow:
