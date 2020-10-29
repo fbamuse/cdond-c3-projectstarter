@@ -466,7 +466,7 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - cloudfront-update
+
       - build-frontend
       -  test-frontend:
             requires:
@@ -514,6 +514,7 @@ workflows:
 
 
 
+              
           
 #    - get_ips
 #    - build_copy_backend_files :
