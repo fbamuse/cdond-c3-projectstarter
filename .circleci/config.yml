@@ -416,7 +416,7 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: ami-06cd52961ce9f0d85 
+      - image:  amazon/aws-cli
     steps:
       - checkout
       - run: apk add aws-cli
@@ -489,7 +489,7 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - cloudfront-update
+
       - build-frontend
       -  test-frontend:
             requires:
