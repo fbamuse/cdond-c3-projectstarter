@@ -416,38 +416,48 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: amazon/aws-cli
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a]
-          name: Install dependencies
+ #         fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a]
+          
       - run:
+          name: Install dependencies
           command: |
             apk add --update nodejs npm curl bash
-            pip install awscli
+
+
       - run:
-          name: cloudfront_infrastructure
-          command: |
-            set TERM=xterm
-            export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --no-paginate --output text)
-            echo Old Workflow Id: "${OldWorkflowID}"
-            if [ -n "${OldWorkflowID}" ]
-            then
-            echo "Update existing CloudFront stack"
-            aws cloudformation update-stack \
-              --region ap-northeast-1 \
-              --template-file .circleci/files/cloudfront.yml \
-              --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
-            else              
-            echo "Create CloudFront stack"
-            aws cloudformation create-stack\
-              --region ap-northeast-1 \
-              --template-file .circleci/files/cloudfront.yml \
-              --stack-name "udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
-            fi
+        name: cloudfront_infrastructure
+        command: |
+          aws cloudformation deploy \
+            --region ap-northeast-1 \
+            --template-file  .circleci/files/cloudfront.yml \
+            --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
+            --tags project=udapeople
+   #   - run:
+ #       name: cloudfront_infrastructure
+ #       command: |
+ #         set TERM=xterm
+ #         export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --no-paginate --output text)
+ #         echo Old Workflow Id: "${OldWorkflowID}"
+ #         if [ -n "${OldWorkflowID}" ]
+ #         then
+ #         echo "Update existing CloudFront stack"
+ #         aws cloudformation update-stack  \
+ #           --stack-name udapeople-cloudfront \
+ #           --template-body file://./.circleci/files/cloudfront.yml \
+ #           --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
+ #           --tags 'Key=project,Value=udapeople'
+ #         else              
+ #         echo "Create CloudFront stack"
+ #         aws cloudformation create-stack  \
+ #           --stack-name udapeople-cloudfront \
+ #           --template-body file://./.circleci/files/cloudfront.yml \
+ #           --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
+ #           --tags 'Key=project,Value=udapeople'  
+ #         fi
       - run:
           name: Promote CloudFront distribution and clean up old resources
           command: |
