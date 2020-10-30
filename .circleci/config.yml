@@ -484,7 +484,6 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - cloudfront-update
       - build-frontend
       -  test-frontend:
             requires:
