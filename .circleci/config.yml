@@ -445,14 +445,14 @@ jobs:
             echo "Update existing CloudFront stack"
             aws cloudformation update-stack  \
               --stack-name udapeople-cloudfront \
-              --template-body .circleci/files/cloudfront.yml \
+              --template-body file://./.circleci/files/cloudfront.yml \
               --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
               --tags 'Key=project,Value=udapeople'
             else              
             echo "Create CloudFront stack"
             aws cloudformation create-stack  \
               --stack-name udapeople-cloudfront \
-              --template-body .circleci/files/cloudfront.yml \
+              --template-body file://./.circleci/files/cloudfront.yml \
               --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
               --tags 'Key=project,Value=udapeople'  
             fi
