@@ -416,9 +416,10 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: amazon/aws-cli
+      - image: ami-06cd52961ce9f0d85 
     steps:
       - checkout
+      - run: apk add aws-cli
  #         fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a]    
  #     - run:
  #         name: Install dependencies
@@ -483,11 +484,12 @@ jobs:
               aws cloudformation delete-stack --stack-name udapeople-backend-${OldWorkflowID}
             fi
 
-            
+
 
 workflows:
   my_workflow:
     jobs:
+      - cloudfront-update
       - build-frontend
       -  test-frontend:
             requires:
