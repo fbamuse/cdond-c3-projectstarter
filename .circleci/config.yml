@@ -420,10 +420,10 @@ jobs:
     steps:
       - checkout
  #         fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a]    
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update nodejs npm curl bash
+ #     - run:
+ #         name: Install dependencies
+ #         command: |
+ #           apk add --update nodejs npm curl bash
       - run:
           name: cloudfront_infrastructure
           command: |
@@ -484,7 +484,7 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-
+      - cloudfront-update
       - build-frontend
       -  test-frontend:
             requires:
