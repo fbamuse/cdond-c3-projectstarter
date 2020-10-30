@@ -431,13 +431,13 @@ jobs:
               --region ap-northeast-1 \
               --template-file  .circleci/files/cloudfront.yml \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
+              --parameter ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7}  \
               --tags project=udapeople
    #   - run:
  #       name: cloudfront_infrastructure
  #       command: |
  #         set TERM=xterm
- #         export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --no-paginate --output text)
+ #         export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==${CIRCLE_WORKFLOW_ID:0:7}].Value" --no-paginate --output text)
  #         echo Old Workflow Id: "${OldWorkflowID}"
  #         if [ -n "${OldWorkflowID}" ]
  #         then
@@ -458,6 +458,7 @@ jobs:
       - run:
           name: Promote CloudFront distribution and clean up old resources
           command: |
+            set  WorkflowID = ${CIRCLE_WORKFLOW_ID:0:7}
             export OldWorkflowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
