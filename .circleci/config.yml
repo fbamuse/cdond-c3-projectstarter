@@ -419,44 +419,43 @@ jobs:
       - image:  amazon/aws-cli
     steps:
       - checkout
-      - run: apk add aws-cli
+      #- run: apk add aws-cli
  #         fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a]    
  #     - run:
  #         name: Install dependencies
  #         command: |
  #           apk add --update nodejs npm curl bash
+ #    - run:
+ #        name: cloudfront_infrastructure
+ #        command: |
+ #           --region ap-northeast-1 \
+ #           --template-file  .circleci/files/cloudfront.yml \
+ #           --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+ #           --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+ #           --tags project=udapeople
+
       - run:
           name: cloudfront_infrastructure
           command: |
-            aws cloudformation deploy \
-              --region ap-northeast-1 \
-              --template-file  .circleci/files/cloudfront.yml \
-              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --tags project=udapeople
-
-   #   - run:
- #       name: cloudfront_infrastructure
- #       command: |
- #         set TERM=xterm
- #         export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==${CIRCLE_WORKFLOW_ID:0:7}].Value" --no-paginate --output text)
- #         echo Old Workflow Id: "${OldWorkflowID}"
- #         if [ -n "${OldWorkflowID}" ]
- #         then
- #         echo "Update existing CloudFront stack"
- #         aws cloudformation update-stack  \
- #           --stack-name udapeople-cloudfront \
- #           --template-body file://./.circleci/files/cloudfront.yml \
- #           --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
- #           --tags 'Key=project,Value=udapeople'
- #         else              
- #         echo "Create CloudFront stack"
- #         aws cloudformation create-stack  \
- #           --stack-name udapeople-cloudfront \
- #           --template-body file://./.circleci/files/cloudfront.yml \
- #           --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
- #           --tags 'Key=project,Value=udapeople'  
- #         fi
+            set TERM=xterm
+            export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==${CIRCLE_WORKFLOW_ID:0:7}].Value" --no-paginate --output text)
+            echo Old Workflow Id: "${OldWorkflowID}"
+            if [ -n "${OldWorkflowID}" ]
+            then
+            echo "Update existing CloudFront stack"
+            aws cloudformation update-stack  \
+              --stack-name udapeople-cloudfront \
+              --template-body .circleci/files/cloudfront.yml \
+              --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
+              --tags 'Key=project,Value=udapeople'
+            else              
+            echo "Create CloudFront stack"
+            aws cloudformation create-stack  \
+              --stack-name udapeople-cloudfront \
+              --template-body .circleci/files/cloudfront.yml \
+              --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
+              --tags 'Key=project,Value=udapeople'  
+            fi
       - run:
           name: Promote CloudFront distribution and clean up old resources
           command: |
