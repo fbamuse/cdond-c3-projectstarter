@@ -508,6 +508,10 @@ workflows:
           
       - create_infrastructure:
           requires: [analyze-backend, analyze-frontend]
+          filters:
+            branches:
+              only:
+                - master
 
       - get_ips:
               requires:
@@ -535,7 +539,7 @@ workflows:
             requires: 
               - smoke-test
 
-              
+
 
 #    - get_ips
 #    - build_copy_backend_files :
