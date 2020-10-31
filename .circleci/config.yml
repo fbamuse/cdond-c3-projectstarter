@@ -529,21 +529,10 @@ workflows:
       - cloudfront-update:
             requires: 
               - smoke-test
-              
+
       - cleanup:
             requires:
               - cloudfront-update
-
-
-
-#    - get_ips
-#    - build_copy_backend_files :
-#            requires:
-#              - get_ips
-#
-#    - smoke-test:
-#          requires:
-#            - build_copy_backend_files
 
 
 
