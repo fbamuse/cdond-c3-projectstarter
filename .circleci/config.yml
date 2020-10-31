@@ -438,7 +438,7 @@ jobs:
           name: cloudfront_infrastructure
           command: |
             set TERM=xterm
-            export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==${CIRCLE_WORKFLOW_ID:0:7}].Value" --no-paginate --output text)
+            export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text)
             echo Old Workflow Id: "${OldWorkflowID}"
             if [ -n "${OldWorkflowID}" ]
             then
@@ -457,7 +457,7 @@ jobs:
               --tags 'Key=project,Value=udapeople'  
             fi
 
-            
+
       - run:
           name: Promote CloudFront distribution and clean up old resources
           command: |
@@ -491,7 +491,7 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-
+      - cloudfront-update
       - build-frontend
       -  test-frontend:
             requires:
