@@ -480,7 +480,7 @@ jobs:
             if [ -n "${OldWorkflowID}" ]
             then
               echo Cleanup old S3 bucket frontend and backend stack
-              aws s3 rm s3://udapeople-{OldWorkflowID}/ --recursive
+              aws s3 rm s3://udapeople-${OldWorkflowID}/ --recursive
               aws cloudformation delete-stack --stack-name udapeople-frontend-${OldWorkflowID}          
               aws cloudformation delete-stack --stack-name udapeople-backend-${OldWorkflowID}
             fi
