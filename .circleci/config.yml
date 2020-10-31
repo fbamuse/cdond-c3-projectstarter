@@ -419,21 +419,6 @@ jobs:
       - image:  amazon/aws-cli
     steps:
       - checkout
-      #- run: apk add aws-cli
- #         fingerprints: [5f:d8:4c:b2:cb:6c:73:b9:e7:d5:05:d0:07:24:04:2a]    
- #     - run:
- #         name: Install dependencies
- #         command: |
- #           apk add --update nodejs npm curl bash
- #    - run:
- #        name: cloudfront_infrastructure
- #        command: |
- #           --region ap-northeast-1 \
- #           --template-file  .circleci/files/cloudfront.yml \
- #           --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
- #           --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
- #           --tags project=udapeople
-
       - run:
           name: cloudfront_infrastructure
           command: |
@@ -456,8 +441,14 @@ jobs:
               --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
               --tags 'Key=project,Value=udapeople'  
             fi
+      - destroy-environment
+      - revert-migration
 
-
+  cleanup:
+    docker:
+      - image:  amazon/aws-cli
+    steps:
+      - checkout
       - run:
           name: Promote CloudFront distribution and clean up old resources
           command: |
@@ -538,6 +529,10 @@ workflows:
       - cloudfront-update:
             requires: 
               - smoke-test
+              
+      - cleanup:
+            requires:
+              - cloudfront-update
 
 
 
