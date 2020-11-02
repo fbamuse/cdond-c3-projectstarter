@@ -400,7 +400,7 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text)
             echo "${BACKEND_IP}"
-            curl "http://${BACKEND_IP}"
+            curl "http://${BACKEND_IP}:3030"
       - run:
           name: Smoke test frontend
           command: |
