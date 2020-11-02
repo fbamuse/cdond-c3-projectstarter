@@ -400,7 +400,7 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text)
             echo "${BACKEND_IP}"
-            curl "http://$m"
+            curl "http://${BACKEND_IP}"
       - run:
           name: Smoke test frontend
           command: |
@@ -532,5 +532,6 @@ workflows:
               - cloudfront-update
 
 
-              
+
+
         
