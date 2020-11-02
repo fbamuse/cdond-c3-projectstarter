@@ -203,7 +203,6 @@ jobs:
           command: |
             cd backend
             npm install
-#            npm audit --audit-level=critical 
             npm audit fix --audit-level=critical --force
       - slack/status:
           success_message: ':ok:\nRepository: $CIRCLE_PROJECT_REPONAME\nBranch: $CIRCLE_BRANCH\nPull Requests: $CIRCLE_PULL_REQUESTS\nDeploy Success!'
