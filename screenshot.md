@@ -9,6 +9,8 @@ Section 2 - Utilize Deployment Strategies to Design and Build CI/CD Pipelines th
 
 3. Analyze Phase
 ![](screenshot03.png)
+![](screenshot03-2.png)
+![](screenshot03-3.png)
 4. Alerts
 ![](screenshot04.png)
 

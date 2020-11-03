@@ -3,13 +3,13 @@ Public Url to GitHub repository (not private) [URL01]
 https://github.com/fbamuse/cdond-c3-projectstarter
 
 Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02]
-http://udapeople-6a5e125.s3.amazonaws.com/index.html#/employees
+http://udapeople-ae339e4.s3.amazonaws.com/index.html#/employees
 
 Public URL for your CloudFront distribution (aka, your blue production front-end) [URL03]
 http://d10lriky27s20q.cloudfront.net/#/employees
 
 Public URLs to deployed application back-end in EC2 [URL04]
-http://ec2-54-65-31-119.ap-northeast-1.compute.amazonaws.com:3030/
+http://ec2-52-195-1-112.ap-northeast-1.compute.amazonaws.com:3030/
 
 
 Public URL to your Prometheus Server [URL05]
