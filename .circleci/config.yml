@@ -157,7 +157,10 @@ jobs:
       - save_cache:
           paths: [ backend/node_modules]
           key: backend-
-      - run:npm 
+      - run:
+          command: |
+            mkdir -p ~/b_reports
+          when: always
       - store_test_results:
           path: ~/b_reports
       - run:
