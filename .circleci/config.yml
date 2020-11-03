@@ -157,10 +157,7 @@ jobs:
       - save_cache:
           paths: [ backend/node_modules]
           key: backend-
-      - run:
-          command: |
-            mkdir -p ~/b_reports
-          when: always
+      - run:npm 
       - store_test_results:
           path: ~/b_reports
       - run:
@@ -203,7 +200,8 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix --audit-level=critical --force
+            npm update
+            npm audit fix --force
       - slack/status:
           success_message: ':ok:\nRepository: $CIRCLE_PROJECT_REPONAME\nBranch: $CIRCLE_BRANCH\nPull Requests: $CIRCLE_PULL_REQUESTS\nDeploy Success!'
           failure_message: ':ng:\nRepository: $CIRCLE_PROJECT_REPONAME\nBranch: $CIRCLE_BRANCH\nPull Requests: $CIRCLE_PULL_REQUESTS\nDeploy Failure!'
