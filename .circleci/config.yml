@@ -94,7 +94,6 @@ jobs:
             cd backend
             echo $CODE
             npm install
-            npm update
             npm run build
       - save_cache:
           paths: [ backend/node_modules]
