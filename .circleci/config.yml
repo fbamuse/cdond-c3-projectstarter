@@ -173,7 +173,7 @@ jobs:
           failure_message: ':ng:\nRepository: $CIRCLE_PROJECT_REPONAME\nBranch: $CIRCLE_BRANCH\nPull Requests: $CIRCLE_PULL_REQUESTS\nDeploy Failure!'
           webhook: "${SLACK_WEBHOOK}"
 
-          
+
   analyze-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -207,6 +207,7 @@ jobs:
             npm install
             npm update
             npm audit fix --force
+            npm fund
       - slack/status:
           success_message: ':ok:\nRepository: $CIRCLE_PROJECT_REPONAME\nBranch: $CIRCLE_BRANCH\nPull Requests: $CIRCLE_PULL_REQUESTS\nDeploy Success!'
           failure_message: ':ng:\nRepository: $CIRCLE_PROJECT_REPONAME\nBranch: $CIRCLE_BRANCH\nPull Requests: $CIRCLE_PULL_REQUESTS\nDeploy Failure!'
