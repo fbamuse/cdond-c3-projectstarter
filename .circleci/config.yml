@@ -80,7 +80,7 @@ jobs:
           failure_message: ':ng:\nRepository: $CIRCLE_PROJECT_REPONAME\nBranch: $CIRCLE_BRANCH\nPull Requests: $CIRCLE_PULL_REQUESTS\nDeploy Failure!'
           webhook: "${SLACK_WEBHOOK}"
 
-          
+
   build-backend:
     docker:
       - image:  circleci/node:13.8.0
@@ -94,6 +94,7 @@ jobs:
             cd backend
             echo $CODE
             npm install
+            npm update
             npm run build
       - save_cache:
           paths: [ backend/node_modules]
